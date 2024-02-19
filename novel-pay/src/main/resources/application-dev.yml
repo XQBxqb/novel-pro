@@ -1,0 +1,87 @@
+#----------------数据源---------------------------------
+spring:
+  datasource:
+    url:
+    username:
+    password:
+    hikari:
+      connection-timeout: 30000       # 等待连接池分配连接的最大时长（毫秒），超过这个时长还没可用的连接则发生SQLException， 默认:30秒
+      minimum-idle: 5                 # 最小连接数
+      maximum-pool-size: 20           # 最大连接数
+      auto-commit: true               # 自动提交
+      idle-timeout: 600000            # 连接超时的最大时长（毫秒），超时则被释放（retired），默认:10分钟
+      pool-name: DateSourceHikariCP     # 连接池名字
+      max-lifetime: 1800000           # 连接的生命时长（毫秒），超时而且没被使用则被释放（retired），默认:30分钟 1800000ms
+
+#-----------------redis---------------------------------
+  data:
+    redis:
+      host:
+      port:
+      database: 0
+      password:
+
+#---------------nacos discovery--------------------
+  cloud:
+    nacos:
+      server-addr: 192.168.98.101:8848
+    loadbalancer:
+      ribbon:
+        enabled: false
+    stream:
+      bindings:
+        erbadagang-input:
+          destination: ERBADAGANG-TOPIC-01 # 目的地。这里使用 RocketMQ Topic
+          content-type: application/json # 内容格式。这里使用 JSON
+          group: erbadagang-consumer-group-ERBADAGANG-TOPIC-01 # 消费者分组,命名规则：组名+topic名
+
+        trek-input:
+          destination: TREK-TOPIC-01 # 目的地。这里使用 RocketMQ Topic
+          content-type: application/json # 内容格式。这里使用 JSON
+          group: trek-consumer-group-TREK-TOPIC-01 # 消费者分组,命名规则：组名+topic名
+        # Spring Cloud Stream RocketMQ 配置项
+      rocketmq:
+        # RocketMQ Binder 配置项，对应 RocketMQBinderConfigurationProperties 类
+        binder:
+          name-server: 127.0.0.1:9876 # RocketMQ Namesrv 地址
+        # RocketMQ 自定义 Binding 配置项，对应 RocketMQBindingProperties Map
+        bindings:
+          erbadagang-input:
+            # RocketMQ Consumer 配置项，对应 RocketMQConsumerProperties 类
+            consumer:
+              enabled: true # 是否开启消费，默认为 true
+              broadcasting: false # 是否使用广播消费，默认为 false 使用集群消费，如果要使用广播消费值设成true。
+
+
+#--------------elastic-----------------------------
+elastic:
+  host:
+  port:
+  ssl:
+    enabled:  true
+    keystore:
+      path:
+
+management:
+  health:
+    elasticsearch:
+      enabled: true
+#--------------mybatis-plus--------------------------
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#--------------spring boot admin -----
+  boot:
+    admin:
+      client:
+        url: http://localhost:9098
+
+#-------------xxl-job---------------
+xxl:
+  job:
+    admin:
+      addresses: http://127.0.0.1:9090/xxl-job-admin
+      accessToken: default_token
+    executor:
+      appname: novel-pay # 执行器 AppName [选填]：执行器心跳注册分组依据；为空则关闭自动注册
+      logretentiondays: 30 # 执行器日志文件保存天数 [选填] ： 过期日志自动清理, 限制值大于等于3时生效; 否则, 如-1, 关闭自动清理功能；

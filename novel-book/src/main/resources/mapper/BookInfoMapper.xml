@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.novel.book.dao.BookInfoMapper">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, work_direction, category_id, category_name, pic_url, book_name, author_id, author_name, book_desc, score, book_status, visit_count, word_count, comment_count, last_chapter_id, last_chapter_name, last_chapter_update_time, is_vip, create_time, update_time
+    </sql>
+    <select id="getAll" resultType="com.novel.core.entity.BookInfo">
+        select *
+        from book_info
+    </select>
+
+    <select id="getBookInfo" resultType="com.novel.core.entity.BookInfo">
+        select id,category_id ,category_name,pic_url,book_name,author_id,
+               author_name,book_desc,score,book_status,
+               visit_count,word_count,comment_count,last_chapter_id,
+               last_chapter_name,last_chapter_update_time,update_time
+        from book_info
+        where id = #{bookInfo}
+    </select>
+</mapper>

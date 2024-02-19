@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.novel.book.dao.BookChapterMapper">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, book_id, chapter_num, chapter_name, word_count, is_vip, create_time, update_time
+    </sql>
+
+    <select id="selectLastestChapter" resultType="com.novel.core.entity.BookChapter">
+        select b1.id id,b1.book_id bookId ,b1.chapter_num chapterNum,b1.chapter_name chapterName,
+               b1.word_count as wordCount,
+               b1.is_vip isVip,
+               b1.update_time updateTime
+        from book_chapter b1
+            JOIN(
+            select book_id,MAX(chapter_num) max_num
+            from book_chapter b2
+            GROUP BY book_id
+        ) temp_book ON b1.book_id=temp_book.book_id AND b1.chapter_num = temp_book.max_num;
+    </select>
+
+</mapper>

@@ -1,0 +1,24 @@
+#----------------redis---------------------------------
+spring:
+  data:
+    redis:
+      host:
+      port:
+      database: 0
+      password:
+
+#----------------nacos discovery---------------------------------
+  cloud:
+    nacos:
+      server-addr: 192.168.98.101:8848
+    loadbalancer:
+      ribbon:
+        enabled: false
+
+#--------------spring boot admin -----
+  boot:
+    admin:
+      client:
+        url: http://localhost:9098
+
+

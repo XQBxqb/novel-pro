@@ -1,0 +1,37 @@
+server:
+  port: 9099
+
+spring:
+  application:
+    name: pzuul
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.98.101:8848 # nacos 地址和端口
+      config:
+        file-extension: yaml # 获取配置文件的格式：yaml
+        username: nacos # nacos 认证用户名
+        password: nacos # nacos 认证密码
+        server-addr: 192.168.98.101:8848
+
+zuul:
+  host:
+    connect-timeout-millis: 10000
+    socket-timeout-millis: 20000
+  routes:
+    presource:
+      path: /api/front/resource/**
+      service-id: presource
+    puser:
+      path: /api/front/user/**
+      service-id: puser
+
+sentinel:
+  api-definition:
+    address:  192.168.98.101:8848
+    data-id:  pzuul-api-definetion
+  gatewayrule-manager:
+    address:  192.168.98.101:8848
+    data-id:  pzuul-gatewayrule
+

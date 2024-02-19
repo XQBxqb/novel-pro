@@ -1,0 +1,9 @@
+
+spring:
+  profiles:
+    active: dev
+
+#-----------------------------------------nacos配置中心
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
